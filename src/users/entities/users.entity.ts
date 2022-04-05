@@ -27,4 +27,16 @@ export default class User {
   })
   @Column()
   password: string;
+
+  @Column()
+  activationLink: string;
+
+  @Column({ default: false })
+  isActivationEmail: boolean;
+
+  @Column({ default: null })
+  imageUrl: string;
+
+  @Column({ default: null })
+  googleId: string;
 }
