@@ -14,5 +14,15 @@
    "port": 3000,
    "jwt": {
      "secret":"secret"
+   },
+   "mailer":{
+     "username":"vsaterdinova.exceedteam@gmail.com",
+     "password": "restart987",
+     "verifyLink":"https://projecty.xyz"
+   },
+   "google":{
+    "clientID": "457660900002-uhfucvlfdqfs7abj7jf080pj2o01it9f.apps.googleusercontent.com",
+    "clientSecret": "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",
+    "callbackURL": ""
    }
 }

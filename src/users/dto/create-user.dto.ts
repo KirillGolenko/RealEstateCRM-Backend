@@ -1,4 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
+
 import { IsString, IsEmail, IsNotEmpty, Length } from "class-validator";
 
 export class CreateUserDto {
@@ -28,4 +29,8 @@ export class CreateUserDto {
   })
   @IsString({ message: "Data must be in string format" })
   password: string;
+
+  googleId?: string;
+  activationLink?: string;
+  imageUrl?: string;
 }
