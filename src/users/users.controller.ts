@@ -4,6 +4,7 @@ import {
   Get,
   Logger,
   Post,
+  Req,
   UseGuards,
   UsePipes,
   ValidationPipe,
@@ -40,5 +41,22 @@ export class UsersController {
   @Get()
   getAll() {
     return this.usersService.getAllUsers();
+  }
+
+  @ApiOperation({ summary: "Get one user" })
+  @ApiResponse({
+    status: 200,
+    description: "Request completed successfully",
+    type: [User],
+  })
+  @UseGuards(JwtAuthGuard)
+  @Get('/info')
+  async getOneUser(@Req() req ) {
+     const user = await this.usersService.getUserByEmail(req.user.email);
+     delete user.password
+     delete user.activationLink
+     delete user.isActivationEmail
+     delete user.googleId
+     return user;
   }
 }
