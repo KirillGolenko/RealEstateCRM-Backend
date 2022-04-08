@@ -3,7 +3,7 @@ import { ApiProperty } from "@nestjs/swagger";
 
 @Entity("users")
 export default class User {
-  @ApiProperty({ example: "1", description: "User unique identificator" })
+  @ApiProperty({ example: 1, description: "User unique identificator" })
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -15,14 +15,14 @@ export default class User {
   email: string;
 
   @ApiProperty({
-    example: "qwerty",
+    example: "KirillG",
     description: "Username",
   })
   @Column({ unique: true })
   username: string;
 
   @ApiProperty({
-    example: "12345678",
+    example: "user123",
     description: "User account password",
   })
   @Column()
