@@ -1,10 +1,13 @@
 import { Controller, Delete, Get, Req, UseGuards } from "@nestjs/common";
-import { ApiOperation, ApiResponse } from "@nestjs/swagger";
+import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
 import { EventsService } from "./events.service";
 import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
 import Event from "./entities/event.entity";
+import RequestWithUser from "src/interface/request-with-user.interface";
 
+@ApiTags("Events")
+@UseGuards(JwtAuthGuard)
 @Controller("events")
 export class EventsController {
   constructor(private eventService: EventsService) {}
@@ -15,7 +18,6 @@ export class EventsController {
     description: "Request completed successfully",
     type: [Event],
   })
-  @UseGuards(JwtAuthGuard)
   @Get()
   getAll() {
     return this.eventService.getAllEvents();
@@ -27,9 +29,8 @@ export class EventsController {
     description: "Request completed successfully",
     type: [Event],
   })
-  @UseGuards(JwtAuthGuard)
   @Delete("/delete/:id")
-  deleteTask(@Req() req) {
-    this.eventService.deleteEvent(req.params.id);
+  deleteTask(@Req() req: RequestWithUser) {
+    this.eventService.deleteEvent(Number(req.params.id));
   }
 }

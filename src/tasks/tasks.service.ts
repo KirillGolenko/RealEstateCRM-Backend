@@ -16,12 +16,14 @@ export class TasksService {
   ) {}
 
   async createNewTask(dto: TasksDto, userId: number) {
-    await this.eventService.createNewAction({
-      userId,
-      action: EventsUserTasks.CREATETASK,
-    });
     const task = this.tasksRepository.create(dto);
-    return await this.tasksRepository.save(task);
+    const newTask = await this.tasksRepository.save(task);
+    if (newTask) {
+      await this.eventService.createNewAction({
+        userId,
+        action: EventsUserTasks.CREATETASK,
+      });
+    }
   }
 
   async getAllTasks() {
@@ -35,28 +37,34 @@ export class TasksService {
 
   async updateTask(taskId: number, newTask: TasksDto, userId: number) {
     const task = await this.tasksRepository.findOne(taskId);
-    if (task.status === newTask.status) {
-      await this.eventService.createNewAction({
-        userId,
-        action: EventsUserTasks.UPDATE,
-      });
-    } else {
-      await this.eventService.createNewAction({
-        userId,
-        action: EventsUserTasks.MOVEMENT,
-      });
-    }
-
     await this.tasksRepository.update({ id: taskId }, newTask);
+
     const modifiedTask = await this.tasksRepository.findOne(taskId);
+    if (modifiedTask) {
+      if (task.status === newTask.status) {
+        await this.eventService.createNewAction({
+          userId,
+          action: EventsUserTasks.UPDATE,
+        });
+      } else {
+        await this.eventService.createNewAction({
+          userId,
+          action: EventsUserTasks.MOVEMENT,
+        });
+      }
+    }
     return modifiedTask;
   }
 
   async deleteTask(taskId: number, userId: number) {
-    await this.eventService.createNewAction({
-      userId,
-      action: EventsUserTasks.DELETE,
-    });
     await this.tasksRepository.delete({ id: taskId });
+    const task = await this.tasksRepository.findOne(taskId);
+
+    if (!task) {
+      await this.eventService.createNewAction({
+        userId,
+        action: EventsUserTasks.DELETE,
+      });
+    }
   }
 }
