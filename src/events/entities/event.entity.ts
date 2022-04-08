@@ -1,5 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { ApiProperty } from "@nestjs/swagger";
+
 import { EventsUserTasks } from "../enums/event.enum";
 
 @Entity("event")

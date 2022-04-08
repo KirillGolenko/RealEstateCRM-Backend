@@ -1,8 +1,9 @@
 import { Controller, Delete, Get, Req, UseGuards } from "@nestjs/common";
 import { ApiOperation, ApiResponse } from "@nestjs/swagger";
+
 import { EventsService } from "./events.service";
-import Event from "./entities/event.entity";
 import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
+import Event from "./entities/event.entity";
 
 @Controller("events")
 export class EventsController {

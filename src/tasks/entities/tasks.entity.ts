@@ -1,5 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { ApiProperty } from "@nestjs/swagger";
+
 import { StatusTask } from "../emuns/task.enum";
 
 @Entity("tasks")

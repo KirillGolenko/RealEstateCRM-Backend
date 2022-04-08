@@ -9,10 +9,11 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+
 import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
+import { TasksService } from "./tasks.service";
 import { TasksDto } from "./dto/tasks.dto";
 import Task from "./entities/tasks.entity";
-import { TasksService } from "./tasks.service";
 
 @ApiTags("Tasks")
 @Controller("tasks")

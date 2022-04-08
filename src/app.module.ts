@@ -18,8 +18,8 @@ import * as config from "config";
     MailModule,
     GoogleModule,
     TasksModule,
-    TypeOrmModule.forRoot({ ...config.get("database.postgresql") }),
     EventsModule,
+    TypeOrmModule.forRoot({ ...config.get("database.postgresql") }),
   ],
 })
 export class AppModule {}
