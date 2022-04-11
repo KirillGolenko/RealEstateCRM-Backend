@@ -49,4 +49,11 @@ export default class Task {
   })
   @Column({ default: null })
   comment: string;
+
+  @ApiProperty({
+    example: 1,
+    description: "Task index in the general list",
+  })
+  @Column()
+  index: number;
 }

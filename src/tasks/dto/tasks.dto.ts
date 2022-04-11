@@ -51,4 +51,11 @@ export class TasksDto {
   @IsOptional()
   @IsString()
   comment: string;
+
+  @ApiProperty({
+    example: 1,
+    description: "Task index in the general list",
+  })
+  @IsNotEmpty()
+  index: number;
 }

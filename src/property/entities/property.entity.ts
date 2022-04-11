@@ -78,7 +78,7 @@ export default class Property {
     enum: TransactionsWithProperty,
   })
   @Column()
-  transactions: string;
+  manipulation: string;
 
   @ApiProperty({
     example: ['kvartira-v-arendu-4913689727', 'kvartira-v-arendu-879536412'],

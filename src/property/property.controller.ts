@@ -1,9 +1,8 @@
-import { Body, Controller, Delete, Get, Post, Put, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { PropertyService } from './property.service';
-import RequestWithUser from 'src/interface/request-with-user.interface';
 import PropertyDto from './dto/property.dto';
 import Property from './entities/property.entity';
 
@@ -38,8 +37,8 @@ export class PropertyController {
     type: [Property],
   })
   @Get("/:id")
-  getOneTask(@Req() req: RequestWithUser) {
-    return this.propertyService.getOneProperty(Number(req.params.id));
+  getOneTask(@Param('id') id: number) {
+    return this.propertyService.getOneProperty(id);
   }
 
   @ApiOperation({ summary: "Edit property" })
@@ -49,10 +48,10 @@ export class PropertyController {
     type: [Property],
   })
   @Put("/update/:id")
-  updateProperty(@Req() req: RequestWithUser) {
+  updateProperty(@Param('id') id: number, @Body() propertyDto: PropertyDto) {
     return this.propertyService.updateProperty(
-      Number(req.params.id),
-      req.body,
+    id,
+    propertyDto,
     );
   }
 
@@ -63,7 +62,7 @@ export class PropertyController {
     type: [Property],
   })
   @Delete("/delete/:id")
-  deleteTask(@Req() req: RequestWithUser) {
-    this.propertyService.deleteProperty(Number(req.params.id));
+  deleteTask(@Param('id') id: number) {
+    this.propertyService.deleteProperty(id);
   }
 }

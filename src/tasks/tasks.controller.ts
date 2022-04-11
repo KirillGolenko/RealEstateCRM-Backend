@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Param,
   Post,
   Put,
   Req,
@@ -25,8 +26,8 @@ export class TasksController {
   @ApiOperation({ summary: "Create new task" })
   @ApiResponse({ status: 200, description: "Successfully created", type: Task })
   @Post()
-  create(@Body() tasksDto: TasksDto, @Req() req: RequestWithUser) {
-    return this.tasksService.createNewTask(tasksDto, req.user.id);
+  create(@Body() tasksDto: TasksDto, @Param('id') id: number) {
+    return this.tasksService.createNewTask(tasksDto, id);
   }
 
   @ApiOperation({ summary: "Get all tasks" })
@@ -47,8 +48,8 @@ export class TasksController {
     type: [Task],
   })
   @Get("/info/:id")
-  getOneTask(@Req() req: RequestWithUser) {
-    return this.tasksService.getOneTask(Number(req.params.id));
+  getOneTask(@Param('id') id: number) {
+    return this.tasksService.getOneTask(id);
   }
 
   @ApiOperation({ summary: "Edit task" })
@@ -58,10 +59,10 @@ export class TasksController {
     type: [Task],
   })
   @Put("/update/:id")
-  updateTask(@Req() req: RequestWithUser) {
+  updateTask(@Req() req: RequestWithUser, @Param('id') id: number, @Body() tasksDto: TasksDto, ) {
     return this.tasksService.updateTask(
-      Number(req.params.id),
-      req.body,
+      id,
+      tasksDto,
       req.user.id
     );
   }
@@ -73,7 +74,7 @@ export class TasksController {
     type: [Task],
   })
   @Delete("/delete/:id")
-  deleteTask(@Req() req: RequestWithUser) {
-    this.tasksService.deleteTask(Number(req.params.id), req.user.id);
+  deleteTask(@Req() req: RequestWithUser, @Param('id') id: number,) {
+    this.tasksService.deleteTask(id, req.user.id);
   }
 }
