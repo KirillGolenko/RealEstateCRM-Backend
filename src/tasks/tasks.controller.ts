@@ -51,7 +51,7 @@ export class TasksController {
     return this.tasksService.getOneTask(Number(req.params.id));
   }
 
-  @ApiOperation({ summary: "Delete task" })
+  @ApiOperation({ summary: "Edit task" })
   @ApiResponse({
     status: 200,
     description: "Request completed successfully",
