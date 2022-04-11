@@ -44,6 +44,10 @@ const projectStart = async (): Promise<void> => {
     .setTitle("Real estate CRM")
     .setDescription("API documentation")
     .setVersion("1.0.0")
+    .addBearerAuth(
+      { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
+      'token',
+    )
     .build();
 
   const document = SwaggerModule.createDocument(app, configProject);

@@ -9,7 +9,7 @@ import {
   Req,
   UseGuards,
 } from "@nestjs/common";
-import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
 import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
 import { TasksService } from "./tasks.service";
@@ -18,6 +18,7 @@ import Task from "./entities/tasks.entity";
 import RequestWithUser from "src/interface/request-with-user.interface";
 
 @ApiTags("Tasks")
+@ApiBearerAuth('token')
 @UseGuards(JwtAuthGuard)
 @Controller("tasks")
 export class TasksController {

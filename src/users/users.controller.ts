@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post, Req, UseGuards } from "@nestjs/common";
-import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
 import { UsersService } from "./users.service";
 import { CreateUserDto } from "./dto/create-user.dto";
@@ -25,8 +25,10 @@ export class UsersController {
     description: "Request completed successfully",
     type: [User],
   })
+
   @UseGuards(JwtAuthGuard)
   @Get()
+  @ApiBearerAuth('token')
   getAll() {
     return this.usersService.getAllUsers();
   }
@@ -37,6 +39,7 @@ export class UsersController {
     description: "Request completed successfully",
     type: [User],
   })
+  @ApiBearerAuth('token')
   @UseGuards(JwtAuthGuard)
   @Get('/info')
   async getOneUser(@Req() req: RequestWithUser ) {

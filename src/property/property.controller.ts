@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { PropertyService } from './property.service';
@@ -7,6 +7,7 @@ import PropertyDto from './dto/property.dto';
 import Property from './entities/property.entity';
 
 @ApiTags("Property")
+@ApiBearerAuth('token')
 @UseGuards(JwtAuthGuard)
 @Controller('property')
 export class PropertyController {
