@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Post, Req, UseGuards } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
 import User from "./entities/users.entity";
@@ -28,5 +28,22 @@ export class UsersController {
   @Get()
   getAll() {
     return this.usersService.getAllUsers();
+  }
+
+  @ApiOperation({ summary: "Get one user" })
+  @ApiResponse({
+    status: 200,
+    description: "Request completed successfully",
+    type: [User],
+  })
+  @UseGuards(JwtAuthGuard)
+  @Get('/info')
+  async getOneUser(@Req() req ) {
+     const user = await this.usersService.getUserByEmail(req.user.email);
+     delete user.password
+     delete user.activationLink
+     delete user.isActivationEmail
+     delete user.googleId
+     return user;
   }
 }

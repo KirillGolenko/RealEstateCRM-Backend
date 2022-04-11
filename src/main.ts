@@ -3,11 +3,9 @@ import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { Logger, ValidationPipe } from "@nestjs/common";
 import { WinstonModule } from "nest-winston";
 import { format, transports } from "winston";
-
 import { AppModule } from "./app.module";
 import { LoggingInterceptor } from "./utils/logging.interceptor";
 import HttpExceptionFilter from "./exceptions/http-exception.filter";
-
 import * as cookieParser from "cookie-parser";
 import * as config from "config";
 

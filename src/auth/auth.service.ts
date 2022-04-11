@@ -41,16 +41,12 @@ export class AuthService {
     return token;
   }
 
-  async getToken(tokenData: IToken) {
-    const token = await this.tokensRepository.find({
-      userId: tokenData.userId,
+  async getToken(tokenData) {
+    const token = await this.tokensRepository.findOne({
+      userId: tokenData
     });
-
     if (!token) {
-      throw new HttpException(
-        "User with this token not found",
-        HttpStatus.UNAUTHORIZED
-      );
+      throw new UnauthorizedException("User unauthorized");
     }
 
     return token;
@@ -70,12 +66,20 @@ export class AuthService {
     await this.tokensRepository.save(token);
   }
 
+  async logOut (user) {
+    this.tokensRepository.delete({
+      userId: user.id,
+    });
+  }
+
   async login(userDto: LoginUserDto) {
     try {
       const user = await this.validateUser(userDto);
       return await this.generateToken(user);
     } catch (error) {
-      throw new UnauthorizedException(error.response);
+      throw new UnauthorizedException({
+        message: "Incorrect email or password",
+      });
     }
   }
 

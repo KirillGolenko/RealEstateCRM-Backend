@@ -5,6 +5,8 @@ import {
   Param,
   Post,
   Put,
+  Query,
+  Req,
   UseGuards,
 } from "@nestjs/common";
 import { CreateUserDto } from "src/users/dto/create-user.dto";
@@ -31,6 +33,14 @@ export class AuthController {
   @Post("/login")
   login(@Body() userDto: LoginUserDto) {
     return this.authService.login(userDto);
+  }
+
+  @ApiOperation({ summary: "User logout" })
+  @ApiResponse({ status: 200, description: "Successfully" })
+  @UseGuards(JwtAuthGuard)
+  @Get("/logout")
+  logout(@Req() req ) {
+    return this.authService.logOut(req.user);
   }
 
   @ApiOperation({ summary: "User registration" })

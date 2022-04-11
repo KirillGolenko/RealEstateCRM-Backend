@@ -12,7 +12,7 @@ export class GoogleController {
   @ApiResponse({ status: 200, description: "Successfully" })
   @Get("/login")
   @UseGuards(AuthGuard("google"))
-  async googleAuth(@Req() req) {}
+  googleAuth() {return 'ok'}
 
   @ApiOperation({ summary: "Registration user" })
   @ApiResponse({ status: 200, description: "Successfully" })
