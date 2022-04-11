@@ -1,14 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Logger,
-  Post,
-  Req,
-  UseGuards,
-  UsePipes,
-  ValidationPipe,
-} from "@nestjs/common";
+import { Body, Controller, Get, Post, Req, UseGuards } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
 import User from "./entities/users.entity";
@@ -21,11 +11,8 @@ import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
-  private readonly logger = new Logger(UsersController.name);
-
   @ApiOperation({ summary: "Create new user" })
   @ApiResponse({ status: 200, description: "Successfully created", type: User })
-  @UsePipes(ValidationPipe)
   @Post()
   create(@Body() userDto: CreateUserDto) {
     return this.usersService.createNewUser(userDto);
