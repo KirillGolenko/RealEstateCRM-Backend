@@ -1,9 +1,10 @@
 import { Controller, Get, UseGuards, Req, Res } from "@nestjs/common";
-import { ApiOperation, ApiResponse } from "@nestjs/swagger";
+import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
 
 import { GoogleService } from "./google.service";
 
+@ApiTags("Google")
 @Controller("google")
 export class GoogleController {
   constructor(private googleService: GoogleService) {}

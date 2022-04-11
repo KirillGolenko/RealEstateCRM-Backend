@@ -1,10 +1,11 @@
 import { Body, Controller, Get, Post, Req, UseGuards } from "@nestjs/common";
-import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
-import User from "./entities/users.entity";
 import { UsersService } from "./users.service";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
+import RequestWithUser from "src/interface/request-with-user.interface";
+import User from "./entities/users.entity";
 
 @ApiTags("Users")
 @Controller("users")
@@ -24,8 +25,10 @@ export class UsersController {
     description: "Request completed successfully",
     type: [User],
   })
+
   @UseGuards(JwtAuthGuard)
   @Get()
+  @ApiBearerAuth('token')
   getAll() {
     return this.usersService.getAllUsers();
   }
@@ -36,9 +39,10 @@ export class UsersController {
     description: "Request completed successfully",
     type: [User],
   })
+  @ApiBearerAuth('token')
   @UseGuards(JwtAuthGuard)
   @Get('/info')
-  async getOneUser(@Req() req ) {
+  async getOneUser(@Req() req: RequestWithUser ) {
      const user = await this.usersService.getUserByEmail(req.user.email);
      delete user.password
      delete user.activationLink
