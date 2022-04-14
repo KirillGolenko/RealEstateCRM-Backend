@@ -1,11 +1,11 @@
-import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
-import { EventsUserTasks } from "src/events/enums/event.enum";
-import { EventsService } from "src/events/events.service";
-import { TasksDto } from "./dto/tasks.dto";
-import Task from "./entities/tasks.entity";
+import { EventsUserTasks } from 'src/events/enums/event.enum';
+import { EventsService } from 'src/events/events.service';
+import { TasksDto } from './dto/tasks.dto';
+import Task from './entities/tasks.entity';
 
 @Injectable()
 export class TasksService {

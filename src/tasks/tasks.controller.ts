@@ -1,40 +1,30 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  Put,
-  Req,
-  UseGuards,
-} from "@nestjs/common";
-import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
-import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
-import { TasksService } from "./tasks.service";
-import { TasksDto } from "./dto/tasks.dto";
-import Task from "./entities/tasks.entity";
-import RequestWithUser from "src/interface/request-with-user.interface";
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { TasksService } from './tasks.service';
+import { TasksDto } from './dto/tasks.dto';
+import Task from './entities/tasks.entity';
+import RequestWithUser from 'src/interface/request-with-user.interface';
 
-@ApiTags("Tasks")
+@ApiTags('Tasks')
 @ApiBearerAuth('token')
 @UseGuards(JwtAuthGuard)
-@Controller("tasks")
+@Controller('tasks')
 export class TasksController {
   constructor(private tasksService: TasksService) {}
 
-  @ApiOperation({ summary: "Create new task" })
-  @ApiResponse({ status: 200, description: "Successfully created", type: Task })
+  @ApiOperation({ summary: 'Create new task' })
+  @ApiResponse({ status: 200, description: 'Successfully created', type: Task })
   @Post()
-  create(@Body() tasksDto: TasksDto, @Param('id') id: number) {
-    return this.tasksService.createNewTask(tasksDto, id);
+  create(@Body() tasksDto: TasksDto, @Req() req: RequestWithUser) {
+    return this.tasksService.createNewTask(tasksDto, req.user.id);
   }
 
-  @ApiOperation({ summary: "Get all tasks" })
+  @ApiOperation({ summary: 'Get all tasks' })
   @ApiResponse({
     status: 200,
-    description: "Request completed successfully",
+    description: 'Request completed successfully',
     type: [Task],
   })
   @Get()
@@ -42,40 +32,36 @@ export class TasksController {
     return this.tasksService.getAllTasks();
   }
 
-  @ApiOperation({ summary: "Get one task and her performers" })
+  @ApiOperation({ summary: 'Get one task and her performers' })
   @ApiResponse({
     status: 200,
-    description: "Request completed successfully",
+    description: 'Request completed successfully',
     type: [Task],
   })
-  @Get("/info/:id")
+  @Get('/info/:id')
   getOneTask(@Param('id') id: number) {
     return this.tasksService.getOneTask(id);
   }
 
-  @ApiOperation({ summary: "Edit task" })
+  @ApiOperation({ summary: 'Edit task' })
   @ApiResponse({
     status: 200,
-    description: "Request completed successfully",
+    description: 'Request completed successfully',
     type: [Task],
   })
-  @Put("/update/:id")
-  updateTask(@Req() req: RequestWithUser, @Param('id') id: number, @Body() tasksDto: TasksDto, ) {
-    return this.tasksService.updateTask(
-      id,
-      tasksDto,
-      req.user.id
-    );
+  @Put('/update/:id')
+  updateTask(@Req() req: RequestWithUser, @Param('id') id: number, @Body() tasksDto: TasksDto) {
+    return this.tasksService.updateTask(id, tasksDto, req.user.id);
   }
 
-  @ApiOperation({ summary: "Delete task" })
+  @ApiOperation({ summary: 'Delete task' })
   @ApiResponse({
     status: 200,
-    description: "Request completed successfully",
+    description: 'Request completed successfully',
     type: [Task],
   })
-  @Delete("/delete/:id")
-  deleteTask(@Req() req: RequestWithUser, @Param('id') id: number,) {
+  @Delete('/delete/:id')
+  deleteTask(@Req() req: RequestWithUser, @Param('id') id: number) {
     this.tasksService.deleteTask(id, req.user.id);
   }
 }

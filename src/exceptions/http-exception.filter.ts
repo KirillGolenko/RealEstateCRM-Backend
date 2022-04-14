@@ -1,12 +1,7 @@
-import {
-  ExceptionFilter,
-  Catch,
-  ArgumentsHost,
-  HttpException,
-} from "@nestjs/common";
-import { Response } from "express";
-import * as dayjs from "dayjs";
-import ResponseExcaption from "./exception.interface";
+import { ExceptionFilter, Catch, ArgumentsHost, HttpException } from '@nestjs/common';
+import { Response } from 'express';
+import * as dayjs from 'dayjs';
+import ResponseExcaption from './exception.interface';
 
 @Catch(HttpException)
 export default class HttpExceptionFilter implements ExceptionFilter {
@@ -20,7 +15,7 @@ export default class HttpExceptionFilter implements ExceptionFilter {
     response.status(status).json({
       statusCode: status,
       message: responseExcaption.message ?? message,
-      timestamp: dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss"),
+      timestamp: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss'),
     });
   }
 }

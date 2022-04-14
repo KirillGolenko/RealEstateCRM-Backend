@@ -24,5 +24,8 @@
     "clientID": "457660900002-uhfucvlfdqfs7abj7jf080pj2o01it9f.apps.googleusercontent.com",
     "clientSecret": "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",
     "callbackURL": ""
+   },
+   "client": {
+    "accessToken":"48a657cda560a9f7bf732cbe743a8c0b3dc565ab"
    }
 }

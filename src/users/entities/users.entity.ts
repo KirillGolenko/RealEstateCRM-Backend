@@ -1,29 +1,29 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-import { ApiProperty } from "@nestjs/swagger";
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { ApiProperty } from '@nestjs/swagger';
 
-@Entity("users")
+@Entity('users')
 export default class User {
-  @ApiProperty({ example: 1, description: "User unique identificator" })
+  @ApiProperty({ example: 1, description: 'User unique identificator' })
   @PrimaryGeneratedColumn()
   id: number;
 
   @ApiProperty({
-    example: "user@mail.ru",
-    description: "User e-mail address",
+    example: 'user@mail.ru',
+    description: 'User e-mail address',
   })
   @Column({ unique: true })
   email: string;
 
   @ApiProperty({
-    example: "KirillG",
-    description: "Username",
+    example: 'KirillG',
+    description: 'Username',
   })
   @Column({ unique: true })
   username: string;
 
   @ApiProperty({
-    example: "user123",
-    description: "User account password",
+    example: 'user123',
+    description: 'User account password',
   })
   @Column()
   password: string;

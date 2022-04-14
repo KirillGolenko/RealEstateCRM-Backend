@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { UploadService } from 'src/upload/upload.service';
 import { Repository } from 'typeorm';
 
 import PropertyDto from './dto/property.dto';
@@ -9,12 +10,14 @@ import Property from './entities/property.entity';
 export class PropertyService {
   constructor(
     @InjectRepository(Property)
-    private readonly propertyRepository: Repository<Property>
+    private readonly propertyRepository: Repository<Property>,
+    private readonly uploadService: UploadService
   ) {}
 
-  async createNewProperty(dto: PropertyDto) {
-    const property = this.propertyRepository.create(dto);
-    return await this.propertyRepository.save(property)
+  async createNewProperty(dto: any, files: Express.Multer.File[]) {
+    const urls = await this.uploadService.saveFiles(files);
+    const property = this.propertyRepository.create({ ...dto, imagesUrl: urls });
+    return await this.propertyRepository.save(property);
   }
 
   async getAllProperty() {
@@ -24,7 +27,7 @@ export class PropertyService {
 
   async getOneProperty(propertyId: number) {
     const property = await this.propertyRepository.findOne({ id: propertyId });
-    return property
+    return property;
   }
 
   async updateProperty(propertyId: number, newPropetryDto: PropertyDto) {

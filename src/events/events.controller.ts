@@ -1,21 +1,21 @@
-import { Controller, Delete, Get, Param, UseGuards } from "@nestjs/common";
-import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { Controller, Delete, Get, Param, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
-import { EventsService } from "./events.service";
-import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
-import Event from "./entities/event.entity";
+import { EventsService } from './events.service';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import Event from './entities/event.entity';
 
-@ApiTags("Events")
+@ApiTags('Events')
 @ApiBearerAuth('token')
 @UseGuards(JwtAuthGuard)
-@Controller("events")
+@Controller('events')
 export class EventsController {
   constructor(private eventService: EventsService) {}
 
-  @ApiOperation({ summary: "Get all events" })
+  @ApiOperation({ summary: 'Get all events' })
   @ApiResponse({
     status: 200,
-    description: "Request completed successfully",
+    description: 'Request completed successfully',
     type: [Event],
   })
   @Get()
@@ -23,13 +23,13 @@ export class EventsController {
     return this.eventService.getAllEvents();
   }
 
-  @ApiOperation({ summary: "Delete event" })
+  @ApiOperation({ summary: 'Delete event' })
   @ApiResponse({
     status: 200,
-    description: "Request completed successfully",
+    description: 'Request completed successfully',
     type: [Event],
   })
-  @Delete("/delete/:id")
+  @Delete('/delete/:id')
   deleteTask(@Param('id') id: number) {
     this.eventService.deleteEvent(Number(id));
   }

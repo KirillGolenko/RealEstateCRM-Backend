@@ -1,6 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity("token")
+@Entity('token')
 export default class Token {
   @PrimaryGeneratedColumn()
   id: number;
