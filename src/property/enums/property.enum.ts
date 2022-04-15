@@ -5,7 +5,6 @@ export enum PropertyTypes {
 }
 
 export enum TransactionsWithProperty {
-  FOR_SALE = 'FOR SALE',
   RESERVED = 'RESERVED',
   FOR_RENT = 'FOR RENT',
 }

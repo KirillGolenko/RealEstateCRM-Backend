@@ -28,6 +28,9 @@ export default class User {
   @Column()
   password: string;
 
+  @Column({ default: null })
+  lastLogin: string;
+
   @Column()
   activationLink: string;
 

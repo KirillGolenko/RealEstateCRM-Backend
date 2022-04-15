@@ -1,16 +1,16 @@
 import { BadRequestException, HttpException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { MailService } from 'src/mailer/mailer.service';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
-import { CreateUserDto } from 'src/users/dto/create-user.dto';
+
 import { UsersService } from 'src/users/users.service';
+import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { LoginUserDto } from 'src/users/dto/user-login.dto';
 import { ForgotPasswordDto } from 'src/auth/dto/forgot-password.dto';
 import { ChangePasswordDto } from 'src/auth/dto/change-password.dto';
+import { MailService } from 'src/mailer/mailer.service';
 import { IToken } from './interface/token.interface';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-
 import Token from './entities/token.entity';
 import User from 'src/users/entities/users.entity';
 
@@ -31,8 +31,8 @@ export class AuthService {
     const payload = { email: user.email, id: user.id };
 
     const token = this.jwtService.sign(payload);
-    this.saveToken({ token, userId: user.id });
-    return token;
+    const tokenData = await this.saveToken({ token, userId: user.id });
+    return tokenData;
   }
 
   async getToken(tokenData) {
@@ -58,6 +58,7 @@ export class AuthService {
 
     const token = this.tokensRepository.create(tokenData);
     await this.tokensRepository.save(token);
+    return token;
   }
 
   async logOut(user) {
@@ -69,7 +70,9 @@ export class AuthService {
   async login(userDto: LoginUserDto) {
     try {
       const user = await this.validateUser(userDto);
-      return await this.generateToken(user);
+      const token = await this.generateToken(user);
+      this.usersService.updateUser(user.id, { ...user, lastLogin: token.createdDate });
+      return token.token;
     } catch (error) {
       throw new UnauthorizedException({
         message: 'Incorrect email or password',

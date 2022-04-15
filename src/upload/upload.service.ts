@@ -14,24 +14,26 @@ export class UploadService {
       ...config.get('client'),
     });
   }
-
-  async saveFiles(files: Express.Multer.File[]) {
+  async savePropertyImages(files: Express.Multer.File[]) {
     return await files.reduce(async (promisedAcc, current) => {
       const acc = await promisedAcc;
-      const filePath = join(__dirname, '../../', current.path);
+      const response = await this.saveFile(current);
 
-      const response = await this.client.upload({
-        image: readFileSync(filePath),
-        type: 'stream',
-      });
-
-      if (response.status === 200) {
-        acc.push(response.data.link);
-      }
-
-      unlinkSync(filePath);
+      acc.push(response);
 
       return acc;
     }, Promise.resolve([]));
+  }
+
+  async saveFile(file: Express.Multer.File) {
+    const filePath = join(__dirname, '../../', file.path);
+    const response = await this.client.upload({
+      image: readFileSync(filePath),
+      type: 'stream',
+    });
+    unlinkSync(filePath);
+    if (response.status === 200) {
+      return response.data.link;
+    }
   }
 }

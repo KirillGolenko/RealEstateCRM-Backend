@@ -11,14 +11,16 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { PropertyService } from './property.service';
-import PropertyDto from './dto/property.dto';
-import Property from './entities/property.entity';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
+
 import { editFileName, imageFileFilter } from 'src/utils/file-upload.utils';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { PropertyService } from './property.service';
+import Property from './entities/property.entity';
+import PropertyDto from './dto/property.dto';
+import { RentDto } from 'src/property/dto/rent.dto';
+import Rent from 'src/property/entities/rent.entity';
 
 @ApiTags('Property')
 @ApiBearerAuth('token')
@@ -61,7 +63,7 @@ export class PropertyController {
     type: [Property],
   })
   @Get('/:id')
-  getOneTask(@Param('id') id: number) {
+  getOneProperty(@Param('id') id: number) {
     return this.propertyService.getOneProperty(id);
   }
 
@@ -85,5 +87,17 @@ export class PropertyController {
   @Delete('/delete/:id')
   deleteTask(@Param('id') id: number) {
     this.propertyService.deleteProperty(id);
+  }
+
+  @ApiOperation({ summary: 'Create a lease period' })
+  @ApiResponse({ status: 200, description: 'Successfully created', type: Rent })
+  @Post('/rent')
+  rentProperty(@Body() rentDto: RentDto) {
+    return this.propertyService.createNewRent(rentDto);
+  }
+
+  @Get('/rent/:id')
+  getOnePropertyRent(@Param('id') id: number) {
+    return this.propertyService.getOnePropertyRent(id);
   }
 }

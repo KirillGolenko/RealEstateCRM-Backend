@@ -30,6 +30,7 @@ export class CreateUserDto {
   @IsString({ message: 'Data must be in string format' })
   password: string;
 
+  lastLogin?: string;
   googleId?: string;
   activationLink?: string;
   imageUrl?: string;

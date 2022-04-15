@@ -1,7 +1,8 @@
-import { Column, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { PropertyTypes, TransactionsWithProperty } from '../enums/property.enum';
 import { IsNotEmpty } from 'class-validator';
+import { Column, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+
+import { PropertyTypes, TransactionsWithProperty } from '../enums/property.enum';
 
 @Entity('property')
 export default class Property {
@@ -82,6 +83,6 @@ export default class Property {
     description: 'Links to real estate images',
   })
   @IsNotEmpty()
-  @Column('text', { array: true })
+  @Column('text', { array: true, default: null })
   imagesUrl: string[];
 }
