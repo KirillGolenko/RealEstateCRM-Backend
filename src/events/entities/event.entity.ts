@@ -1,27 +1,27 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-import { ApiProperty } from "@nestjs/swagger";
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { ApiProperty } from '@nestjs/swagger';
 
-import { EventsUserTasks } from "../enums/event.enum";
+import { EventsUserTasks } from '../enums/event.enum';
 
-@Entity("event")
+@Entity('event')
 export default class Event {
-  @ApiProperty({ example: 1, description: "Event unique identificator" })
+  @ApiProperty({ example: 1, description: 'Event unique identificator' })
   @PrimaryGeneratedColumn()
   id: number;
 
   @ApiProperty({
     example: 1,
-    description: "Unique identifier of the user performing the action",
+    description: 'Unique identifier of the user performing the action',
   })
   @Column()
   userId: number;
 
   @ApiProperty({
-    example: "User create new task",
-    description: "User actions performed on tasks",
+    example: 'User create new task',
+    description: 'User actions performed on tasks',
   })
   @Column({
-    type: "enum",
+    type: 'enum',
     enum: EventsUserTasks,
   })
   action: string;

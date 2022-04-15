@@ -1,14 +1,15 @@
-import { Logger, Module } from "@nestjs/common";
-import { TypeOrmModule } from "@nestjs/typeorm";
+import { Logger, Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { UsersModule } from "./users/users.module";
-import { AuthModule } from "./auth/auth.module";
-import { MailModule } from "./mailer/mailer.module";
-import { GoogleModule } from "./google/google.module";
-import { TasksModule } from "./tasks/tasks.module";
+import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
+import { MailModule } from './mailer/mailer.module';
+import { GoogleModule } from './google/google.module';
+import { TasksModule } from './tasks/tasks.module';
 import { EventsModule } from './events/events.module';
 import { PropertyModule } from './property/property.module';
-import * as config from "config";
+import { UploadModule } from './upload/upload.module';
+import * as config from 'config';
 
 @Module({
   controllers: [],
@@ -22,7 +23,8 @@ import * as config from "config";
     TasksModule,
     EventsModule,
     PropertyModule,
-    TypeOrmModule.forRoot({ ...config.get("database.postgresql") }),
+    UploadModule,
+    TypeOrmModule.forRoot({ ...config.get('database.postgresql') }),
   ],
 })
 export class AppModule {}

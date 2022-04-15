@@ -1,6 +1,6 @@
-import { Injectable } from "@nestjs/common";
-import { MailerService } from "@nestjs-modules/mailer";
-import * as config from "config";
+import { Injectable } from '@nestjs/common';
+import { MailerService } from '@nestjs-modules/mailer';
+import * as config from 'config';
 
 @Injectable()
 export class MailService {
@@ -9,8 +9,8 @@ export class MailService {
   async sendMessage(email: string, message: string) {
     this.mailerService.sendMail({
       to: email,
-      from: config.get("mailer.username"),
-      subject: "Verify User",
+      from: config.get('mailer.username'),
+      subject: 'Verify User',
       html: message,
     });
   }
