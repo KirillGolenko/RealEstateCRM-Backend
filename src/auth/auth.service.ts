@@ -97,7 +97,7 @@ export class AuthService {
   async registration(userDto: CreateUserDto) {
     const candidate = await this.usersService.getUserByEmail(userDto.email);
     if (candidate) {
-      throw new HttpException('User with this email address already exists', HttpStatus.BAD_REQUEST);
+      throw new HttpException('User with this email address already exists', HttpStatus.CONFLICT);
     }
     const uuid = uuidv4();
     const hashPassword = await bcrypt.hash(userDto.password, 8);
@@ -113,7 +113,8 @@ export class AuthService {
     <p> Please use this <a href='${verifyLink}'>Link</a> to confirm your password.</p>`;
 
     this.mailer.sendMessage(user.email, mailMessage);
-    return await this.generateToken(user);
+    const token = await this.generateToken(user);
+    return token.token;
   }
 
   async forgotPassword(forgotPasswordDto: ForgotPasswordDto) {

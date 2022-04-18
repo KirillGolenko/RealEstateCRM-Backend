@@ -36,6 +36,11 @@ export class UsersService {
     return user;
   }
 
+  async getUserById(userId: number) {
+    const user = await this.usersRepository.findOne({ id: userId });
+    return user;
+  }
+
   async getUserByGoogleId(googleId: string) {
     const user = await this.usersRepository.findOne({ googleId });
     return user;
