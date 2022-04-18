@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Req,
   UploadedFiles,
   UseGuards,
   UseInterceptors,
@@ -21,6 +22,7 @@ import Property from './entities/property.entity';
 import PropertyDto from './dto/property.dto';
 import { RentDto } from 'src/property/dto/rent.dto';
 import Rent from 'src/property/entities/rent.entity';
+import RequestWithUser from 'src/interface/request-with-user.interface';
 
 @ApiTags('Property')
 @ApiBearerAuth('token')
@@ -41,8 +43,8 @@ export class PropertyController {
       fileFilter: imageFileFilter,
     })
   )
-  create(@Body() propertyDto: any, @UploadedFiles() files: Express.Multer.File[]) {
-    return this.propertyService.createNewProperty(propertyDto, files);
+  create(@Body() propertyDto: any, @Req() req: RequestWithUser, @UploadedFiles() files: Express.Multer.File[]) {
+    return this.propertyService.createNewProperty(propertyDto, req.user.id, files);
   }
 
   @ApiOperation({ summary: 'Get all propertys' })

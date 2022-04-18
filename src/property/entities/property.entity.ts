@@ -32,11 +32,10 @@ export default class Property {
   price: number;
 
   @ApiProperty({
-    default: null,
     example: 30,
     description: 'Real estate discount',
   })
-  @Column()
+  @Column({ default: null })
   discount: number;
 
   @ApiProperty({

@@ -7,6 +7,7 @@ import { getManager, Repository } from 'typeorm';
 import PropertyDto from './dto/property.dto';
 import Property from './entities/property.entity';
 import Rent from 'src/property/entities/rent.entity';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class PropertyService {
@@ -15,12 +16,14 @@ export class PropertyService {
     private readonly propertyRepository: Repository<Property>,
     @InjectRepository(Rent)
     private readonly rentRepository: Repository<Rent>,
-    private readonly uploadService: UploadService
+    private readonly uploadService: UploadService,
+    private readonly userService: UsersService
   ) {}
 
-  async createNewProperty(dto: any, files: Express.Multer.File[]) {
+  async createNewProperty(dto: any, userId: number, files: Express.Multer.File[]) {
     const urls = await this.uploadService.savePropertyImages(files);
-    const property = this.propertyRepository.create({ ...dto, imagesUrl: urls });
+    const user = await this.userService.getUserById(userId);
+    const property = this.propertyRepository.create({ ...dto, imagesUrl: urls, updateBy: user.username });
     return await this.propertyRepository.save(property);
   }
 

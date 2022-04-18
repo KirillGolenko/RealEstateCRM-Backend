@@ -7,6 +7,7 @@ import { format, transports } from 'winston';
 import { AppModule } from './app.module';
 import { LoggingInterceptor } from './utils/logging.interceptor';
 import HttpExceptionFilter from './exceptions/http-exception.filter';
+import { TransformInterceptor } from './exceptions/transform.interceptor';
 
 import * as cookieParser from 'cookie-parser';
 import * as config from 'config';
@@ -59,6 +60,7 @@ const projectStart = async (): Promise<void> => {
     exposedHeaders: '',
   });
   app.useGlobalInterceptors(new LoggingInterceptor());
+  app.useGlobalInterceptors(new TransformInterceptor());
 
   await app.listen(PORT, () => logger.log(`Server started on port ${PORT}`));
 };
