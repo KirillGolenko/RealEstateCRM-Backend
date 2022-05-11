@@ -1,0 +1,6 @@
+export enum EventsUserTasks {
+  CREATETASK = 'CREATE TASK',
+  MOVEMENT = 'MOVEMENT TASK',
+  UPDATE = 'UPDATE TASK',
+  DELETE = 'DELETE TASK',
+}

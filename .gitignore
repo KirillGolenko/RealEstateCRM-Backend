@@ -1,4 +1,7 @@
 node_modules/
+uploads/*
 dist/
 logs/
+.env
 .DS_Store
+config/
