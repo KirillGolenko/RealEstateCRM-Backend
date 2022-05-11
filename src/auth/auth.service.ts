@@ -46,6 +46,12 @@ export class AuthService {
     return token;
   }
 
+  async getUserByToken(token) {
+    const tokenData: any = this.jwtService.decode(token);
+    const user = await this.usersService.getUserById(tokenData.id);
+    return user;
+  }
+
   async saveToken(tokenData: IToken) {
     const userToken = await this.tokensRepository.find({
       userId: tokenData.userId,
@@ -105,6 +111,7 @@ export class AuthService {
       ...userDto,
       password: hashPassword,
       activationLink: uuid,
+      lastLogin: new Date().toISOString(),
     });
 
     const verifyLink = `${config.get('mailer.verifyLink')}/auth/verify/${uuid}`;
@@ -114,6 +121,7 @@ export class AuthService {
 
     this.mailer.sendMessage(user.email, mailMessage);
     const token = await this.generateToken(user);
+
     return token.token;
   }
 

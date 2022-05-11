@@ -10,6 +10,7 @@ import { EventsModule } from './events/events.module';
 import { PropertyModule } from './property/property.module';
 import { UploadModule } from './upload/upload.module';
 import { ClientsModule } from './clients/clients.module';
+import { MessageModule } from './message/message.module';
 import * as config from 'config';
 
 @Module({
@@ -26,6 +27,7 @@ import * as config from 'config';
     PropertyModule,
     UploadModule,
     ClientsModule,
+    MessageModule,
     TypeOrmModule.forRoot({ ...config.get('database.postgresql') }),
   ],
 })

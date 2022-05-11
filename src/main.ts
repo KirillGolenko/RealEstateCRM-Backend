@@ -56,9 +56,7 @@ const projectStart = async (): Promise<void> => {
   app.use(cookieParser());
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new HttpExceptionFilter());
-  app.enableCors({
-    exposedHeaders: '',
-  });
+  app.enableCors();
   app.useGlobalInterceptors(new LoggingInterceptor());
   app.useGlobalInterceptors(new TransformInterceptor());
 
